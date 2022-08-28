@@ -10,8 +10,9 @@ namespace negocio
     //Clase para centralizar las conexiones a la DB
     public class AccesoDatos
     {
-        private SqlConnection conexion;
-        private SqlCommand comando;
+        //Atributos-objeros necesarios para establcer una conexion
+        private SqlConnection conexion; //Crea la variable (conexion) para establecer la conexion
+        private SqlCommand comando; //Crea la variable comando para realizar acciones
         private SqlDataReader lector; //Aqui se albergan los datos obetenidos de la lectura a la DB
         public SqlDataReader Lector //Popiedad para acceder al lector
         {
@@ -19,13 +20,13 @@ namespace negocio
         }
 
 
-        public AccesoDatos() //Constructor AccesoDatos, cada vez que cree un objero (AD) se va a crear con una conexion y una direccion predeterminada a una DB
+        public AccesoDatos() //Constructor AccesoDatos, cada vez que cree un objeto (AD) se va a crear con una conexion y una direccion predeterminada a una DB
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true"); //Configura la cadena de conexion (a donde me voy a conectar)
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true"); //Crea el objeto conexion y configura la cadena de conexion (a donde me voy a conectar)
             comando = new SqlCommand(); //Objeto para realizar acciones en la db
         }
 
-        public void setearConsulta(string consulta) //Metodo setearConsulta
+        public void setearConsulta(string consulta) //Metodo setearConsulta 
         {
             comando.CommandType = System.Data.CommandType.Text; //Realiza la accion de conecatarse a la DB, comando tipo texto
             comando.CommandText = consulta; //Recibe por parametro la consulta a la DB
@@ -33,7 +34,7 @@ namespace negocio
 
         public void ejecutarLectura()
         {
-            comando.Connection = conexion; //Indica que el los comandos configurados se ejecuten en esta conexion "conexion"
+            comando.Connection = conexion; //Indica que el los comandos configurados se ejecuten en esta conexion "conexion", en la direccion de BD, sever etc
             try
             {
                 conexion.Open();
