@@ -12,7 +12,7 @@ namespace negocio
     public class PokemonNegocio //Clase publica para que pueda ser utilizada desde otras clases
     {
         
-        public List<Pokemon> listar() //Metodo de conexion a base de datos
+        public List<Pokemon> listar() //Metodo de conexion a base de datoz
         {
             List<Pokemon> lista = new List<Pokemon>(); //Crea una lista en donde se van a gardar los registros-Pokemons que se traigan de la DB
             SqlConnection conexion = new SqlConnection(); //Crea un objeto para establecer la conexion
