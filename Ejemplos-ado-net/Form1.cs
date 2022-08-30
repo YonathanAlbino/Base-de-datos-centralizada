@@ -58,5 +58,10 @@ namespace Ejemplos_ado_net
             }
         }
 
+        private void btnAgregar_Click(object sender, EventArgs e) //Evento agregar nuevo Pokemon a la DB
+        {
+            FrmAltaPokemon alta = new FrmAltaPokemon(); //Creo un objeto de tipo (FrmAltaPokemon) para navegar hacia la clase-ventana 
+            alta.ShowDialog();
+        }
     }
 }

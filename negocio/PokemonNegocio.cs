@@ -65,9 +65,24 @@ namespace negocio
             
         }
 
-        public void agregar(Pokemon nuevo)
+        public void agregar(Pokemon nuevo) //Evento para agregar un nuevo Pokemon
         {
+            AccesoDatos datos = new AccesoDatos(); //Creo objeto (datos) para acceder a los atributos, metodos, constructores necesarios para realizar una conexion a la DB
 
+            try
+            {
+                datos.setearConsulta("insert into POKEMONS (Numero, Nombre, Descripcion, Activo) values (" + nuevo.Numero + ",'" + nuevo.Nombre + "', '" + nuevo.Descripcion + "' ,1 )"); //Se envia por parametro la consulta hacia la base de datos al metodo (setearConsulta) preparando el objeto comando con las especificaciones (tipo text y la consulta)
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
         public void modificar(Pokemon modificar)

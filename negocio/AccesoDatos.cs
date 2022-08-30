@@ -10,7 +10,7 @@ namespace negocio
     //Clase para centralizar las conexiones a la DB
     public class AccesoDatos
     {
-        //Atributos-objeros necesarios para establcer una conexion
+        //Atributos-objetos necesarios para establcer una conexion
         private SqlConnection conexion; //Crea la variable (conexion) para establecer la conexion
         private SqlCommand comando; //Crea la variable comando para realizar acciones
         private SqlDataReader lector; //Aqui se albergan los datos obetenidos de la lectura a la DB
@@ -22,8 +22,8 @@ namespace negocio
 
         public AccesoDatos() //Constructor AccesoDatos, cada vez que cree un objeto (AD) se va a crear con una conexion y una direccion predeterminada a una DB
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true"); //Crea el objeto conexion y configura la cadena de conexion (a donde me voy a conectar)
-            comando = new SqlCommand(); //Objeto para realizar acciones en la db
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true"); //Instancia el objeto conexion y configura la cadena de conexion (a donde me voy a conectar)
+            comando = new SqlCommand(); // Instancia el objeto comando para realizar acciones en la DB
         }
 
         public void setearConsulta(string consulta) //Metodo setearConsulta 
@@ -39,6 +39,23 @@ namespace negocio
             {
                 conexion.Open();
                 lector = comando.ExecuteReader(); //Realizo la lectura y devuelve la tabla con datos pero sin ninguna seleccion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+
+        public void ejecutarAccion() //Metodo para incertar un Pokemon en la DB
+        {
+            comando.Connection = conexion;  //Indica que el los comandos configurados se ejecuten en esta conexion "conexion", en la direccion de BD, sever etc
+            try
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery(); //Ejecuta la sentencia de insert
             }
             catch (Exception ex)
             {
