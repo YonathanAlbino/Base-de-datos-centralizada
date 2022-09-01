@@ -19,7 +19,7 @@ namespace negocio
             SqlCommand comando = new SqlCommand(); //Crea el objeto para realizar acciones
 
             SqlDataReader lector; //Aqui se albergan los datos obetenidos de la lectura a la DB
-            try
+            try //Capturo la exepcion si es que hay 
             {
                 conexion.ConnectionString = "server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true"; //Configura la cadena de conexion (a donde me voy a conectar)
                 comando.CommandType = System.Data.CommandType.Text; //Realiza la accion de conecatarse a la DB, comando tipo texto
@@ -36,7 +36,13 @@ namespace negocio
                     aux.Numero = (int)lector["Numero"]; //Asigno el valor a la propiedad (numero) del objero de la clase pokemon, traido por medio de la variable (lector) de tipo SqlDataReader
                     aux.Nombre = (string)lector["Nombre"];
                     aux.Descripcion = (string)lector["Descripcion"];
-                    aux.UrlImagen = (string)lector["UrlImagen"];
+
+                    //if(!(lector.IsDBNull(lector.GetOrdinal("UrlImagen")))) //Metodo para leer o no leer una propiedad Null de la DB
+                    //aux.UrlImagen = (string)lector["UrlImagen"];
+
+                    if (!(lector["UrlImagen"] is DBNull)) //Alternativa para manejo de lecturas Null en DB
+                        aux.UrlImagen = (string)lector["UrlImagen"]; //En caso de que la columna sea Nula sea coloca un string vacio en la propiedad
+
                     aux.Tipo = new Elemento(); //Creo una instancia de tipo (Elemento) para el objeto (aux) acceder a las prop de la clase elemento
                     aux.Tipo.Descripcion = (string)lector["tipo"];
                     aux.Debilidad = new Elemento(); //Creo una instancia de tipo (Elemento) para el objeto (aux) acceder a las prop de la clase elemento

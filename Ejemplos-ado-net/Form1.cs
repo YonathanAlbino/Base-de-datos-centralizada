@@ -31,11 +31,19 @@ namespace Ejemplos_ado_net
         private void Form1_Load(object sender, EventArgs e)
         {
             PokemonNegocio negocio = new PokemonNegocio(); //Creo un objeto de tipo (negocio) para poder utilizar su metodo de conexion a db
-            listaPokemon = negocio.listar(); //Cargo el atributo-lista con el metodo (listar de la clase PokemonNegocio)
-            dgvPokemons.DataSource = listaPokemon; //Le paso el atributo-lista a la DataGriv
-            dgvPokemons.Columns["UrlImagen"].Visible = false; //Oculta la columna (UrlImagen) de la dgvPokemons
-            cargarImagen(listaPokemon[0].UrlImagen); //Al cargase la ventana, se selecciona en la pbxPokemon la listaPokemon con la propiedad UrlImagen en el indice[0]
+            try //Recibo la excepcion desde la definicion del metodo listar y se toman deciciones desde este (Try-catch)
+            {
+                listaPokemon = negocio.listar(); //Cargo el atributo-lista con el metodo (listar de la clase PokemonNegocio)
+                dgvPokemons.DataSource = listaPokemon; //Le paso el atributo-lista a la DataGriv
+                dgvPokemons.Columns["UrlImagen"].Visible = false; //Oculta la columna (UrlImagen) de la dgvPokemons
+                cargarImagen(listaPokemon[0].UrlImagen); //Al cargase la ventana, se selecciona en la pbxPokemon la listaPokemon con la propiedad UrlImagen en el indice[0]
 
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void dgvPokemons_SelectionChanged(object sender, EventArgs e) //Cuando se cambia la seleccion de la grilla-dgvPokemons, se cambia la imagen en la pictureBox-pbxPokemon
