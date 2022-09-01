@@ -71,7 +71,13 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("insert into POKEMONS (Numero, Nombre, Descripcion, Activo) values (" + nuevo.Numero + ",'" + nuevo.Nombre + "', '" + nuevo.Descripcion + "' ,1 )"); //Se envia por parametro la consulta hacia la base de datos al metodo (setearConsulta) preparando el objeto comando con las especificaciones (tipo text y la consulta)
+                datos.setearConsulta("insert into POKEMONS (Numero, Nombre, Descripcion, Activo, IdTipo, IdDebilidad) values ( @Numero, @Nombre, @Descripcion ,@Activo, @IdTipo, @IdDebilidad )"); //Se envia por parametro la consulta hacia la base de datos al metodo (setearConsulta) preparando el objeto comando con las especificaciones (tipo text y la consulta)
+                datos.setearParametro("@IdTipo", nuevo.Tipo.Id); //Se envia al metodo por parametro, el nombre del parametro que se desea cargar en la DB junto al valor que va a recibir
+                datos.setearParametro("@IdDebilidad", nuevo.Debilidad.Id);
+                datos.setearParametro("@Numero", nuevo.Numero);
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Descripcion", nuevo.Descripcion);
+                datos.setearParametro("@Activo", 1);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

@@ -65,6 +65,12 @@ namespace negocio
 
         }
 
+
+        public void setearParametro(string nombre, object valor) //Metodo para asignarle valor a los paramatros de la consulta sql
+        {
+            comando.Parameters.AddWithValue(nombre, valor); //El comando asigna el valor al parametro de la consulta sql
+        }
+
         public void cerrarConexion() //Metodo para cerrar la conexion
         {
             if(lector != null) //Si hay alguna lectruta se cierrar el lector
