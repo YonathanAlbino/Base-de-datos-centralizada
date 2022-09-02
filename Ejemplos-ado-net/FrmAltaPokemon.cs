@@ -33,6 +33,7 @@ namespace Ejemplos_ado_net
                 poke.Numero = int.Parse(txtNumero.Text);
                 poke.Nombre = textNombre.Text;
                 poke.Descripcion = txtDescripcion.Text;
+                poke.UrlImagen = txtUrlImagen.Text;
                 poke.Tipo = (Elemento)cboTipo.SelectedItem; //Cargo la propiedad (Tipo) del (Pokemon) con los datos obetenidos del ComboBox ("La instancia de la propiedad (Tipo) viene dada desde el metodo (listar()) de la clase (ElementoNegocio) ")
                 poke.Debilidad = (Elemento)cboDebilidad.SelectedItem; //Cargo la propiedad (Debilidad) del (Pokemon) con los datos obetenidos del ComboBox. ("La instancia de la propiedad (Debelidad) viene dada desde el metodo (listar()) de la clase (ElementoNegocio) ")
 
@@ -40,9 +41,14 @@ namespace Ejemplos_ado_net
                 MessageBox.Show("Agregado exitosamente");
                 Close(); //Cierra la ventana
             }
+
+            catch (System.Data.SqlClient.SqlException)
+            {
+                MessageBox.Show("La descripcion es demasiado larga");
+            }
+
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString()); //En caso de error, el manejo de excepciones muestra un mensaje "amigable"
             }
         }
@@ -61,6 +67,25 @@ namespace Ejemplos_ado_net
             {
 
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void txtUrlImagen_Leave(object sender, EventArgs e) //Evento leave de (txtUrlImagen), intenta cargar la imagen url a la (pcnPokemonAlta)
+        {
+            cargarImagen(txtUrlImagen.Text); //Llamado a la funcion cargar imagen
+        }
+
+        private void cargarImagen(string imagen) //Metodo privado encargado de cargar imagen
+        {
+            try
+            {
+                pcbAltaPokemon.Load(imagen); //Se carga en la pictureBox-pbxPokemon el objeto (seleccionado) con la propiedad (UrlImagen) obtenida anteriormente
+
+            }
+            catch (Exception ex)
+            {
+
+                pcbAltaPokemon.Load("https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg"); // Carga una imagen pre-seleccionada en caso de error
             }
         }
     }
