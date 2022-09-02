@@ -28,7 +28,18 @@ namespace Ejemplos_ado_net
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e) //Evento load ventana principal
+        {
+            cargar();
+        }
+
+        private void dgvPokemons_SelectionChanged(object sender, EventArgs e) //Cuando se cambia la seleccion de la grilla-dgvPokemons, se cambia la imagen en la pictureBox-pbxPokemon
+        {
+            Pokemon seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;  //Se obtiene el objeto enlazado de la grilla-dgvPokemons en la fila actual, y se lo transforma en un objeto de tipo Pokemon y se guarda en (seleccionado)
+            cargarImagen(seleccionado.UrlImagen); //Llamado al metodo (cargar imagen)
+        }
+
+        private void cargar() //Metodo de carga para el DataGriv
         {
             PokemonNegocio negocio = new PokemonNegocio(); //Creo un objeto de tipo (negocio) para poder utilizar su metodo de conexion a db
             try //Recibo la excepcion desde la definicion del metodo listar y se toman deciciones desde este (Try-catch)
@@ -44,12 +55,6 @@ namespace Ejemplos_ado_net
 
                 MessageBox.Show(ex.ToString());
             }
-        }
-
-        private void dgvPokemons_SelectionChanged(object sender, EventArgs e) //Cuando se cambia la seleccion de la grilla-dgvPokemons, se cambia la imagen en la pictureBox-pbxPokemon
-        {
-            Pokemon seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;  //Se obtiene el objeto enlazado de la grilla-dgvPokemons en la fila actual, y se lo transforma en un objeto de tipo Pokemon y se guarda en (seleccionado)
-            cargarImagen(seleccionado.UrlImagen); //Llamado al metodo (cargar imagen)
         }
 
         private void cargarImagen(string imagen) //Metodo privado encargado de cargar imagen
@@ -70,6 +75,8 @@ namespace Ejemplos_ado_net
         {
             FrmAltaPokemon alta = new FrmAltaPokemon(); //Creo un objeto de tipo (FrmAltaPokemon) para navegar hacia la clase-ventana 
             alta.ShowDialog();
+            cargar(); //Reutilizacion del metodo cargar para actualizar el DataGriv luego de una modificacion
+
         }
     }
 }
