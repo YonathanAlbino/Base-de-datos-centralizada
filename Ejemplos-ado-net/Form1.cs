@@ -78,5 +78,16 @@ namespace Ejemplos_ado_net
             cargar(); //Reutilizacion del metodo cargar para actualizar el DataGriv luego de una modificacion
 
         }
+
+        private void btnModificar_Click(object sender, EventArgs e) //Evento Modificar Pokemon
+        {
+            Pokemon seleccionado; 
+            seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem; //Variable guardar el pokemon seleccionado de la grilla (dgvPokemons)
+
+            FrmAltaPokemon modificar = new FrmAltaPokemon(seleccionado); //Creo un objeto de tipo (FrmAltaPokemon) con un objeto pokemon para navegar hacia la clase-ventana y modificar el pokemon que se manda por parametro
+            modificar.ShowDialog();
+            cargar(); //Reutilizacion del metodo cargar para actualizar el DataGriv luego de una modificacion
+
+        }
     }
 }

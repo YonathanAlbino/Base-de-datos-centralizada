@@ -48,7 +48,6 @@ namespace negocio
 
         }
 
-
         public void ejecutarAccion() //Metodo para incertar un Pokemon en la DB
         {
             comando.Connection = conexion;  //Indica que el los comandos configurados se ejecuten en esta conexion "conexion", en la direccion de BD, sever etc
@@ -64,7 +63,6 @@ namespace negocio
             }
 
         }
-
         public void setearParametro(string nombre, object valor) //Metodo para asignarle valor a los paramatros de la consulta sql
         {
             comando.Parameters.AddWithValue(nombre, valor); //El comando asigna el valor al parametro de la consulta sql

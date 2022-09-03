@@ -14,11 +14,18 @@ namespace Ejemplos_ado_net
 {
     public partial class FrmAltaPokemon : Form
     {
+        private Pokemon pokemon = null; //Atributo privado 
         public FrmAltaPokemon()
         {
             InitializeComponent();
         }
 
+        public FrmAltaPokemon(Pokemon pokemon) //Sobrecarga del constructor para poder modificar un Pokemon
+        {
+            InitializeComponent();
+            this.pokemon = pokemon; //Al llamar al evento (modificar) el atributo (pokemon) se carga con los datos del pokemon que se pretende modificar
+        }
+        
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
@@ -61,6 +68,15 @@ namespace Ejemplos_ado_net
             {
                 cboTipo.DataSource = elementoNegocio.listar(); //Cargo el (CboTipo) con los datos traidos mediante el metodo (listar())
                 cboDebilidad.DataSource = elementoNegocio.listar(); //Cargo el (CboDebilidad) con los datos traidos mediante el metodo (listar())
+
+                if(pokemon != null) //Si el atributo privado (pokemon) esta cargado con datos, significa que se llamo al evento (modificar) 
+                {
+                    txtNumero.Text = pokemon.Numero.ToString(); //Recargo los controles de la ventana (FrmAltaPokemon) con los datos del pokemon seleccionado para modificar
+                    textNombre.Text = pokemon.Nombre;
+                    txtDescripcion.Text = pokemon.Descripcion;
+                    txtUrlImagen.Text = pokemon.UrlImagen;
+                    cargarImagen(pokemon.UrlImagen);
+                }
 
             }
             catch (Exception ex)
