@@ -54,7 +54,7 @@ namespace negocio
             try
             {
                 conexion.Open();
-                comando.ExecuteNonQuery(); //Ejecuta la sentencia de insert
+                comando.ExecuteNonQuery(); //Ejecuta la sentencia de insert-delete-update
             }
             catch (Exception ex)
             {

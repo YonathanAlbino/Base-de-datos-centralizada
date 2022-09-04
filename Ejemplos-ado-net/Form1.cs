@@ -90,5 +90,27 @@ namespace Ejemplos_ado_net
             cargar(); //Reutilizacion del metodo cargar para actualizar el DataGriv luego de una modificacion
 
         }
+
+        private void btnEliminarFisico_Click(object sender, EventArgs e)
+        {
+            PokemonNegocio negocio = new PokemonNegocio(); //Creo el objeto negocio para accer al metodo (eliminar)
+            Pokemon seleccionado; //Creo variable de tipo (pokemon) para guardar el id a eliminar
+            try
+            {
+                DialogResult respuesta = MessageBox.Show("¿De verdad queres eliminarlo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); //Validacion Si-No del (MessageBox)
+                if(respuesta == DialogResult.Yes) //Si la respuesta del MessageBox es SI, se ejecuta el evento (eliminar)
+                {
+                    seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem; //Me guardo los datos del pokemon seleccionado en la grilla para luego obtener el id a eliminar
+                    negocio.eliminar(seleccionado.Id); //Envio el Id del pokemon a eliminar
+                    cargar();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString()); //Muesta caja de dialogo con el posible error
+            }
+        }
     }
 }

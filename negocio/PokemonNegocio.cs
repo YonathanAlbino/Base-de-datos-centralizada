@@ -11,7 +11,7 @@ namespace negocio
     //Clase de conexion a base de datos de la clase (Pokemon) //Cada clase  que necesite conectarse a una DB necesita tener un clase propia de acceso a datos
     public class PokemonNegocio //Clase publica para que pueda ser utilizada desde otras clases
     {
-        
+
         public List<Pokemon> listar() //Metodo de conexion a base de datos
         {
             List<Pokemon> lista = new List<Pokemon>(); //Crea una lista en donde se van a gardar los registros-Pokemons que se traigan de la DB
@@ -50,21 +50,22 @@ namespace negocio
                     aux.Debilidad = new Elemento(); //Creo una instancia de tipo (Elemento) para el objeto (aux) acceder a las prop de la clase elemento
                     aux.Debilidad.Id = (int)lector["IdDebilidad"];
                     aux.Debilidad.Descripcion = (string)lector["Debilidad"];
-                    
-                    
-                    
+
+
+
                     lista.Add(aux); //En esta lista se guardan todas las referencias a todos los objetos que se hayan creado durante el while
                 }
 
-                
+
                 return lista; //Retorna la lista
             }
             catch (Exception ex)
             {
 
                 throw ex;
-
                 
+
+
             }
             finally
             {
@@ -72,7 +73,7 @@ namespace negocio
             }
 
 
-            
+
         }
 
         public void agregar(Pokemon nuevo) //Evento para agregar un nuevo Pokemon
@@ -118,7 +119,7 @@ namespace negocio
 
                 datos.ejecutarAccion();
             }
-            
+
             catch (Exception ex)
             {
 
@@ -127,6 +128,22 @@ namespace negocio
             finally
             {
                 datos.cerrarConexion();
+            }
+        } 
+
+        public void eliminar(int id) //Evento de eliminar "F I S I C O"
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos(); //Creo objeto (datos) para acceder a los metodos-atributos de conexion a la DB
+                datos.setearConsulta("delete  from POKEMONS where Id = @Id"); //Se pasa por parametro la consulta sql de (Eliminar)
+                datos.setearParametro("@Id", id); //Se resuelve el parametro (@Id)
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
