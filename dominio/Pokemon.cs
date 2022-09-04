@@ -12,6 +12,8 @@ namespace dominio
     {
         //Propiedades
 
+        public int Id { get; set; }
+
         [DisplayName("Número")] //( Annotations) (DisplayName) se puede usar para agregar una etiqueta a la propiedad en el DataGriv 
         public int Numero { get; set; }
         public string Nombre { get; set; }
@@ -20,5 +22,6 @@ namespace dominio
         public string UrlImagen { get; set; }
         public Elemento Tipo { get; set; }
         public Elemento Debilidad { get; set; }
+        
     }
 }

@@ -23,6 +23,7 @@ namespace Ejemplos_ado_net
         public FrmAltaPokemon(Pokemon pokemon) //Sobrecarga del constructor para poder modificar un Pokemon
         {
             InitializeComponent();
+            Text = "Modificar pokemon";
             this.pokemon = pokemon; //Al llamar al evento (modificar) el atributo (pokemon) se carga con los datos del pokemon que se pretende modificar
         }
         
@@ -33,19 +34,31 @@ namespace Ejemplos_ado_net
 
         private void btnAceptar_Click(object sender, EventArgs e) //Evento agregar un nuevo Pokemon
         {
-            Pokemon poke = new Pokemon(); //Creo un objeto Pokemon para pasarle las propiedades-datos que ingrese el usuario
+            //Pokemon poke = new Pokemon(); //Creo un objeto Pokemon para pasarle las propiedades-datos que ingrese el usuario
             PokemonNegocio negocio = new PokemonNegocio(); //Creo un objeto de tipo (PokemonNegocio) para acceder a la base de datos
-             try
+            try
             {
-                poke.Numero = int.Parse(txtNumero.Text);
-                poke.Nombre = textNombre.Text;
-                poke.Descripcion = txtDescripcion.Text;
-                poke.UrlImagen = txtUrlImagen.Text;
-                poke.Tipo = (Elemento)cboTipo.SelectedItem; //Cargo la propiedad (Tipo) del (Pokemon) con los datos obetenidos del ComboBox ("La instancia de la propiedad (Tipo) viene dada desde el metodo (listar()) de la clase (ElementoNegocio) ")
-                poke.Debilidad = (Elemento)cboDebilidad.SelectedItem; //Cargo la propiedad (Debilidad) del (Pokemon) con los datos obetenidos del ComboBox. ("La instancia de la propiedad (Debelidad) viene dada desde el metodo (listar()) de la clase (ElementoNegocio) ")
+                if (pokemon == null)
+                    pokemon = new Pokemon();
 
-                negocio.agregar(poke); //Envio por parametro el objeto (poke) al metodo (agregar) de la clase (PokemonNegocio)
-                MessageBox.Show("Agregado exitosamente");
+                pokemon.Nombre = textNombre.Text;
+                pokemon.Numero = int.Parse(txtNumero.Text);
+                pokemon.Descripcion = txtDescripcion.Text;
+                pokemon.UrlImagen = txtUrlImagen.Text;
+                pokemon.Tipo = (Elemento)cboTipo.SelectedItem; //Cargo la propiedad (Tipo) del (Pokemon) con los datos obetenidos del ComboBox ("La instancia de la propiedad (Tipo) viene dada desde el metodo (listar()) de la clase (ElementoNegocio) ")
+                pokemon.Debilidad = (Elemento)cboDebilidad.SelectedItem; //Cargo la propiedad (Debilidad) del (Pokemon) con los datos obetenidos del ComboBox. ("La instancia de la propiedad (Debelidad) viene dada desde el metodo (listar()) de la clase (ElementoNegocio) ")
+
+                if(pokemon.Id != 0)
+                {
+                    negocio.modificar(pokemon); //Metodo modificar
+                    MessageBox.Show("Modificado exitosamente");
+                }
+                else
+                {
+                    negocio.agregar(pokemon); //Envio por parametro el objeto (poke) al metodo (agregar) de la clase (PokemonNegocio)
+                    MessageBox.Show("Agregado exitosamente");
+                }
+
                 Close(); //Cierra la ventana
             }
 
@@ -67,7 +80,12 @@ namespace Ejemplos_ado_net
             try
             {
                 cboTipo.DataSource = elementoNegocio.listar(); //Cargo el (CboTipo) con los datos traidos mediante el metodo (listar())
+                cboTipo.ValueMember = "Id"; //Se escoge la "columna" como clave oculta para el ComboBox
+                cboTipo.DisplayMember = "Descripcion"; //Y aca se elige la "columna" a mostrar en el ComboBox 
+                
                 cboDebilidad.DataSource = elementoNegocio.listar(); //Cargo el (CboDebilidad) con los datos traidos mediante el metodo (listar())
+                cboDebilidad.ValueMember = "Id";
+                cboDebilidad.DisplayMember = "Descripcion";
 
                 if(pokemon != null) //Si el atributo privado (pokemon) esta cargado con datos, significa que se llamo al evento (modificar) 
                 {
@@ -76,6 +94,8 @@ namespace Ejemplos_ado_net
                     txtDescripcion.Text = pokemon.Descripcion;
                     txtUrlImagen.Text = pokemon.UrlImagen;
                     cargarImagen(pokemon.UrlImagen);
+                    cboTipo.SelectedValue = pokemon.Tipo.Id; //Asignacion de valor para la clave del (cbo.Tipo)
+                    cboDebilidad.SelectedValue = pokemon.Debilidad.Id; //Asignacion de valor para la clave del (cbo.Tipo)
                 }
 
             }

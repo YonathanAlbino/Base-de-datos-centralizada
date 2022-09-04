@@ -47,6 +47,7 @@ namespace Ejemplos_ado_net
                 listaPokemon = negocio.listar(); //Cargo el atributo-lista con el metodo (listar de la clase PokemonNegocio)
                 dgvPokemons.DataSource = listaPokemon; //Le paso el atributo-lista a la DataGriv
                 dgvPokemons.Columns["UrlImagen"].Visible = false; //Oculta la columna (UrlImagen) de la dgvPokemons
+                dgvPokemons.Columns["Id"].Visible = false;
                 cargarImagen(listaPokemon[0].UrlImagen); //Al cargase la ventana, se selecciona en la pbxPokemon la listaPokemon con la propiedad UrlImagen en el indice[0]
 
             }
