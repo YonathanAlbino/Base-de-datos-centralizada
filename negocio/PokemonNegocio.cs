@@ -23,7 +23,7 @@ namespace negocio
             {
                 conexion.ConnectionString = "server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true"; //Configura la cadena de conexion (a donde me voy a conectar)
                 comando.CommandType = System.Data.CommandType.Text; //Realiza la accion de conecatarse a la DB, comando tipo texto
-                comando.CommandText = "select Numero, Nombre, P.Descripcion, UrlImagen, e.Descripcion as tipo, D.Descripcion as Debilidad, p.IdTipo, p.IdDebilidad, p.Id from POKEMONS P, ELEMENTOS E, ELEMENTOS D where e.iD = p.IdTipo And D.id = P.idDebilidad;"; //Aqui se le pasa el texto para realizar la lectura
+                comando.CommandText = "select Numero, Nombre, P.Descripcion, UrlImagen, e.Descripcion as tipo, D.Descripcion as Debilidad, p.IdTipo, p.IdDebilidad, p.Id from POKEMONS P, ELEMENTOS E, ELEMENTOS D where e.iD = p.IdTipo And D.id = P.idDebilidad and P.Activo = 1;"; //Aqui se le pasa el texto para realizar la lectura
                 comando.Connection = conexion; //Indica que el los comandos configurados se ejecuten en esta conexion "conexion", en la direccion de BD, sever etc
 
                 conexion.Open(); //Abre la conexion
@@ -138,6 +138,22 @@ namespace negocio
                 AccesoDatos datos = new AccesoDatos(); //Creo objeto (datos) para acceder a los metodos-atributos de conexion a la DB
                 datos.setearConsulta("delete  from POKEMONS where Id = @Id"); //Se pasa por parametro la consulta sql de (Eliminar)
                 datos.setearParametro("@Id", id); //Se resuelve el parametro (@Id)
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public void eliminarLogico(int id)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos(); //Se utiliza la clase (AccesoDatos)
+                datos.setearConsulta("update POKEMONS set Activo = 0 where Id = @id"); //Se setea la consulta para modificar el estado de la columna (activo)
+                datos.setearParametro("@id", id); //Se resuelve el parametro (@id)
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

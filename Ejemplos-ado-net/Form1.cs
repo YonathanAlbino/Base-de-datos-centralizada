@@ -93,15 +93,32 @@ namespace Ejemplos_ado_net
 
         private void btnEliminarFisico_Click(object sender, EventArgs e)
         {
+            eliminar();
+        } //Evento eliminar fisico
+
+        private void btnEliminarLogico_Click(object sender, EventArgs e) //Evento eliminar logico
+        {
+            eliminar(true); //Se envia por paremetro un (True)
+        }
+
+        private void eliminar(bool logico = false) // Metodo eliminar 
+        {
             PokemonNegocio negocio = new PokemonNegocio(); //Creo el objeto negocio para accer al metodo (eliminar)
             Pokemon seleccionado; //Creo variable de tipo (pokemon) para guardar el id a eliminar
             try
             {
                 DialogResult respuesta = MessageBox.Show("¿De verdad queres eliminarlo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); //Validacion Si-No del (MessageBox)
-                if(respuesta == DialogResult.Yes) //Si la respuesta del MessageBox es SI, se ejecuta el evento (eliminar)
+                if (respuesta == DialogResult.Yes) //Si la respuesta del MessageBox es SI, se ejecuta el evento (eliminar)
                 {
                     seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem; //Me guardo los datos del pokemon seleccionado en la grilla para luego obtener el id a eliminar
-                    negocio.eliminar(seleccionado.Id); //Envio el Id del pokemon a eliminar
+
+                    if(logico) //Si (logico) esta en True, elimina de forma logica sino elimina de forma fisica
+                        negocio.eliminarLogico(seleccionado.Id); //Envio el Id del pokemon a eliminar de forma logica
+                    else 
+                    {
+                        negocio.eliminar(seleccionado.Id); //Envio el Id del pokemon a eliminar de forma fisica
+                    }
+
                     cargar();
                 }
 
