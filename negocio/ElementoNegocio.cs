@@ -9,7 +9,7 @@ namespace negocio
 {
     public class ElementoNegocio
     {
-        public List<Elemento> listar() //Metodo para obtener los datos de la clase (Elemento), imita lo que hace el metodo (PokemonListar)
+        public List<Elemento> listar() //Metodo para obtener los datos de la clase (Elemento), imita lo que hace el metodo (PokemonListar) "SELECT"
         {
             List<Elemento> lista = new List<Elemento>(); //Creo la lista de elementos
             AccesoDatos datos = new AccesoDatos(); //Creo un objeto de la clase (AccesoDatos), con propiedades-metodos-atributos necesarios para realizar la conexion a una DB

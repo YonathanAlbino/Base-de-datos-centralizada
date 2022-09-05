@@ -35,8 +35,11 @@ namespace Ejemplos_ado_net
 
         private void dgvPokemons_SelectionChanged(object sender, EventArgs e) //Cuando se cambia la seleccion de la grilla-dgvPokemons, se cambia la imagen en la pictureBox-pbxPokemon
         {
-            Pokemon seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;  //Se obtiene el objeto enlazado de la grilla-dgvPokemons en la fila actual, y se lo transforma en un objeto de tipo Pokemon y se guarda en (seleccionado)
-            cargarImagen(seleccionado.UrlImagen); //Llamado al metodo (cargar imagen)
+           if(dgvPokemons.CurrentRow != null)
+            {
+                Pokemon seleccionado = (Pokemon)dgvPokemons.CurrentRow.DataBoundItem;  //Se obtiene el objeto enlazado de la grilla-dgvPokemons en la fila actual, y se lo transforma en un objeto de tipo Pokemon y se guarda en (seleccionado)
+                cargarImagen(seleccionado.UrlImagen); //Llamado al metodo (cargar imagen)
+            } 
         }
 
         private void cargar() //Metodo de carga para el DataGriv
@@ -46,16 +49,20 @@ namespace Ejemplos_ado_net
             {
                 listaPokemon = negocio.listar(); //Cargo el atributo-lista con el metodo (listar de la clase PokemonNegocio)
                 dgvPokemons.DataSource = listaPokemon; //Le paso el atributo-lista a la DataGriv
-                dgvPokemons.Columns["UrlImagen"].Visible = false; //Oculta la columna (UrlImagen) de la dgvPokemons
-                dgvPokemons.Columns["Id"].Visible = false;
                 cargarImagen(listaPokemon[0].UrlImagen); //Al cargase la ventana, se selecciona en la pbxPokemon la listaPokemon con la propiedad UrlImagen en el indice[0]
-
+                ocultarColumnas();
             }
             catch (Exception ex)
             {
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void ocultarColumnas() //Metodo ocultar columnas
+        {
+            dgvPokemons.Columns["UrlImagen"].Visible = false; //Oculta la columna (UrlImagen) de la dgvPokemons
+            dgvPokemons.Columns["Id"].Visible = false;
         }
 
         private void cargarImagen(string imagen) //Metodo privado encargado de cargar imagen
@@ -128,6 +135,27 @@ namespace Ejemplos_ado_net
 
                 MessageBox.Show(ex.ToString()); //Muesta caja de dialogo con el posible error
             }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e) //Evento filtro rapido
+        {
+            List<Pokemon> listaFiltrada; //Creo una lista para guardar los valores filtrados, no es necesario instanciar la lista ya que la (Funcion lamba) devuelve una lista con instancia
+
+            string filtro = txtFiltro.Text;
+
+            if(filtro != "")
+            {
+                listaFiltrada = listaPokemon.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Tipo.Descripcion.ToUpper().Contains(filtro.ToUpper())); //funcion lamba: Compara una propiedad dada con lo que tenga adentro del (txtFiltro) y devuelve los objetos que cumplan la condicion
+                txtFiltro.Text = "";
+            }
+            else
+            {
+                listaFiltrada = listaPokemon; //Si el (txtFiltro) se encuentra vacio, recargar la lista con todos datos
+            }
+            
+            dgvPokemons.DataSource = null; //Limpiar la grilla antes de asignarle nuevos valores
+            dgvPokemons.DataSource = listaFiltrada; //Carga la grilla con los objetos que cumpla la condicion del filtro
+            ocultarColumnas();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace negocio
             comando.CommandText = consulta; //Recibe por parametro la consulta a la DB
         }
 
-        public void ejecutarLectura()
+        public void ejecutarLectura() //Metodo de select un Pokemon en la DB
         {
             comando.Connection = conexion; //Indica que el los comandos configurados se ejecuten en esta conexion "conexion", en la direccion de BD, sever etc
             try
@@ -48,7 +48,7 @@ namespace negocio
 
         }
 
-        public void ejecutarAccion() //Metodo para incertar un Pokemon en la DB
+        public void ejecutarAccion() //Metodo para incertar-update-delte un Pokemon en la DB
         {
             comando.Connection = conexion;  //Indica que el los comandos configurados se ejecuten en esta conexion "conexion", en la direccion de BD, sever etc
             try

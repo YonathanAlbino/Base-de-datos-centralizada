@@ -12,7 +12,7 @@ namespace negocio
     public class PokemonNegocio //Clase publica para que pueda ser utilizada desde otras clases
     {
 
-        public List<Pokemon> listar() //Metodo de conexion a base de datos
+        public List<Pokemon> listar() //Metodo de conexion a base de datos "SELECT"
         {
             List<Pokemon> lista = new List<Pokemon>(); //Crea una lista en donde se van a gardar los registros-Pokemons que se traigan de la DB
             SqlConnection conexion = new SqlConnection(); //Crea un objeto para establecer la conexion
@@ -74,9 +74,9 @@ namespace negocio
 
 
 
-        }
+        } 
 
-        public void agregar(Pokemon nuevo) //Evento para agregar un nuevo Pokemon
+        public void agregar(Pokemon nuevo) //Evento para agregar un nuevo Pokemon "INSERT"
         {
             AccesoDatos datos = new AccesoDatos(); //Creo objeto (datos) para acceder a los atributos, metodos, constructores necesarios para realizar una conexion a la DB
 
@@ -101,9 +101,9 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-        }
+        } 
 
-        public void modificar(Pokemon poke)
+        public void modificar(Pokemon poke) //Evento para modificar un nuevo Pokemon "UPDATE"
         {
             AccesoDatos datos = new AccesoDatos(); //Objeto para tener acceso a la clase de datos
             try
@@ -129,9 +129,9 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-        } 
+        }  
 
-        public void eliminar(int id) //Evento de eliminar "F I S I C O"
+        public void eliminar(int id) //Evento para eliminar "F I S I C O" "DELET"
         {
             try
             {
@@ -147,7 +147,7 @@ namespace negocio
             }
         }
 
-        public void eliminarLogico(int id)
+        public void eliminarLogico(int id) //Evento para eliminar "L O G I C O" "DELET"
         {
             try
             {
