@@ -11,7 +11,7 @@ namespace negocio
     //Clase de conexion a base de datos de la clase (Pokemon) //Cada clase  que necesite conectarse a una DB necesita tener un clase propia de acceso a datos
     public class PokemonNegocio //Clase publica para que pueda ser utilizada desde otras clases
     {
-
+        
         public List<Pokemon> listar() //Metodo de conexion a base de datos "SELECT"
         {
             List<Pokemon> lista = new List<Pokemon>(); //Crea una lista en donde se van a gardar los registros-Pokemons que se traigan de la DB
@@ -129,7 +129,103 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-        }  
+        }
+
+        public List<Pokemon> filtrar(string campo, string criterio, string filtro) //Metodo filtrar contra la Db
+        {
+            List<Pokemon> lista = new List<Pokemon>(); //Creo la lista de pokemon para retornarla con los datos cargados
+            AccesoDatos datos = new AccesoDatos(); //Creo el objeto (datos) para tener acceso a la DB
+            try
+            {
+                string consulta = "select Numero, Nombre, P.Descripcion, UrlImagen, e.Descripcion as tipo, D.Descripcion as Debilidad, p.IdTipo, p.IdDebilidad, p.Id from POKEMONS P, ELEMENTOS E, ELEMENTOS D where e.iD = p.IdTipo And D.id = P.idDebilidad and P.Activo = 1 And  ";
+                
+
+                if(campo == "Número") //Criterios para filtrar la busqueda contra la DB
+                {
+                    switch (criterio)
+                    {
+                        case "Mayor a":
+                            consulta += "Numero > " + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += "Numero < " + filtro;
+                            break;
+                        default:
+                            consulta += "Numero = " + filtro;
+                            break;
+                    }
+                }
+                else if (campo == "Nombre")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "Nombre like '" + filtro +"%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "Nombre like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "Nombre like  '%" + filtro + "%' ";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "P.Descripcion like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "P.Descripcion  like '%" + filtro+ "'";  //'%o'
+                            break;
+                        default:
+                            consulta += "P.Descripcion  like  '%" + filtro + "%' ";
+                            break;
+                    }
+                }
+
+                datos.setearConsulta(consulta); //Se envia la consulta
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read()) //Si hay un registro entra al while, ademas posiciona un puntero en la siguiente posicion de la tabla
+                {
+                    Pokemon aux = new Pokemon(); //En cada vuelta del while crea un nuevo objeto reutilizando la varaible aux, pero crea una nueva instancia de pokemon
+                                                 //Y en cada nueva instancia va a ir guardando los datos en las prop que correspondan en cada vueltas del while
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Numero = (int)datos.Lector["Numero"]; //Asigno el valor a la propiedad (numero) del objero de la clase pokemon, traido por medio de la variable (lector) de tipo SqlDataReader
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    //if(!(lector.IsDBNull(lector.GetOrdinal("UrlImagen")))) //Metodo para leer o no leer una propiedad Null de la DB
+                    //aux.UrlImagen = (string)lector["UrlImagen"];
+
+                    if (!(datos.Lector["UrlImagen"] is DBNull)) //Alternativa para manejo de lecturas Null en DB
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"]; //En caso de que la columna sea Nula sea coloca un string vacio en la propiedad
+
+                    aux.Tipo = new Elemento(); //Creo una instancia de tipo (Elemento) para el objeto (aux) acceder a las prop de la clase elemento
+                    aux.Tipo.Id = (int)datos.Lector["IdTipo"];
+                    aux.Tipo.Descripcion = (string)datos.Lector["tipo"];
+                    aux.Debilidad = new Elemento(); //Creo una instancia de tipo (Elemento) para el objeto (aux) acceder a las prop de la clase elemento
+                    aux.Debilidad.Id = (int)datos.Lector["IdDebilidad"];
+                    aux.Debilidad.Descripcion = (string)datos.Lector["Debilidad"];
+
+
+
+                    lista.Add(aux); //En esta lista se guardan todas las referencias a todos los objetos que se hayan creado durante el while
+                }
+
+
+                return lista; //Retorna la lista
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
         public void eliminar(int id) //Evento para eliminar "F I S I C O" "DELET"
         {

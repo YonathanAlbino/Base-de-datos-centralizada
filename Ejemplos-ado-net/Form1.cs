@@ -31,6 +31,9 @@ namespace Ejemplos_ado_net
         private void Form1_Load(object sender, EventArgs e) //Evento load ventana principal
         {
             cargar();
+            cboCampo.Items.Add("Número"); //Asigno valores al (cboCampo)
+            cboCampo.Items.Add("Nombre");
+            cboCampo.Items.Add("Descripción");
         }
 
         private void dgvPokemons_SelectionChanged(object sender, EventArgs e) //Cuando se cambia la seleccion de la grilla-dgvPokemons, se cambia la imagen en la pictureBox-pbxPokemon
@@ -137,25 +140,68 @@ namespace Ejemplos_ado_net
             }
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e) //Evento filtro rapido
+        private void btnBuscar_Click(object sender, EventArgs e) //Evento filtro contra DB, 
+        {
+            PokemonNegocio negocio = new PokemonNegocio(); //Creo el objeto (negocio) para tener acceso al metodo listar
+            try
+            {
+                string campo = cboCampo.SelectedItem.ToString(); //Guardo en la variable (campo) el intem seleccionado del (cboCampo)
+                string criterio = cboCriterio.SelectedItem.ToString();
+                string filtro = txtFiltroAvanzado.Text;
+                dgvPokemons.DataSource = negocio.filtrar(campo, criterio, filtro); //Llamado al metodo filtrar
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void txtFiltro_TextChanged(object sender, EventArgs e) //Evento filtro rapido
         {
             List<Pokemon> listaFiltrada; //Creo una lista para guardar los valores filtrados, no es necesario instanciar la lista ya que la (Funcion lamba) devuelve una lista con instancia
 
             string filtro = txtFiltro.Text;
 
-            if(filtro != "")
+            if (filtro.Length >= 3) //Si el filtro es >=3, realiza la accion
             {
                 listaFiltrada = listaPokemon.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Tipo.Descripcion.ToUpper().Contains(filtro.ToUpper())); //funcion lamba: Compara una propiedad dada con lo que tenga adentro del (txtFiltro) y devuelve los objetos que cumplan la condicion
-                txtFiltro.Text = "";
             }
             else
             {
                 listaFiltrada = listaPokemon; //Si el (txtFiltro) se encuentra vacio, recargar la lista con todos datos
             }
-            
+
             dgvPokemons.DataSource = null; //Limpiar la grilla antes de asignarle nuevos valores
             dgvPokemons.DataSource = listaFiltrada; //Carga la grilla con los objetos que cumpla la condicion del filtro
             ocultarColumnas();
+        }
+
+        private void lblFiltroAvanzado_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string opcion = cboCampo.SelectedItem.ToString(); //Guardo en la variable (seleccionado) el valor actual del (cboCampo)
+
+            if(opcion == "Número")
+            {
+                cboCriterio.Items.Clear(); //Limpio el (cboCriterio)
+                cboCriterio.Items.Add("Mayor a");
+                cboCriterio.Items.Add("Menor a");
+                cboCriterio.Items.Add("Igual a");
+
+            }
+            else //Si no es numero es descripcion o nombre
+            {
+                cboCriterio.Items.Clear(); //Limpio el (cboCriterio)
+                cboCriterio.Items.Add("Comienza con");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Contiene");
+            }
+
         }
     }
 }
