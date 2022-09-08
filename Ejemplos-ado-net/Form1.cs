@@ -165,7 +165,7 @@ namespace Ejemplos_ado_net
 
             if (filtro.Length >= 3) //Si el filtro es >=3, realiza la accion
             {
-                listaFiltrada = listaPokemon.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Tipo.Descripcion.ToUpper().Contains(filtro.ToUpper())); //funcion lamba: Compara una propiedad dada con lo que tenga adentro del (txtFiltro) y devuelve los objetos que cumplan la condicion
+                listaFiltrada = listaPokemon.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Tipo.Descripcion.ToUpper().Contains(filtro.ToUpper())); //expresion lamnda: Compara una propiedad dada con lo que tenga adentro del (txtFiltro) y devuelve los objetos que cumplan la condicion
             }
             else
             {

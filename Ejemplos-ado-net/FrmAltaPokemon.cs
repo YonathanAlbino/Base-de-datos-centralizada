@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO; //Clase para guardar archivo
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using dominio; //Inclusion proyecto (dominio)
 using negocio; //Inclusion proyecto (negocio)
+using System.Configuration; //Inclusion de la clase (App.connfig)
 
 namespace Ejemplos_ado_net
 {
@@ -122,6 +124,21 @@ namespace Ejemplos_ado_net
             {
 
                 pcbAltaPokemon.Load("https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg"); // Carga una imagen pre-seleccionada en caso de error
+            }
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e) //Evento levantar imagen de un archivo
+        {
+            OpenFileDialog archivo = new OpenFileDialog(); //Obejto para levantar imagen
+            archivo.Filter = "jpg|*.jpg;|png|*.png"; //Filtro para que el objeto muestre solo los archos (jpg)
+            if (archivo.ShowDialog() == DialogResult.OK) //Si se selecciona un archivo, entra al if
+            {
+                txtUrlImagen.Text = archivo.FileName; //Se guarda la direccion del archivo seleccionado
+                cargarImagen(archivo.FileName); //Se carga la imagen en el (pcbPokemon)
+
+                //Guardo la imagen
+
+                File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName); //Primero se selecciona el archivo que se va a guardar y luego en que direccion
             }
         }
     }

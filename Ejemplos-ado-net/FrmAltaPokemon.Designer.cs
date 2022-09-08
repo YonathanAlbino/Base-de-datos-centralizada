@@ -43,6 +43,7 @@
             this.lblUrlImagen = new System.Windows.Forms.Label();
             this.txtUrlImagen = new System.Windows.Forms.TextBox();
             this.pcbAltaPokemon = new System.Windows.Forms.PictureBox();
+            this.btnAgregarImagen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pcbAltaPokemon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -169,18 +170,29 @@
             // 
             // pcbAltaPokemon
             // 
-            this.pcbAltaPokemon.Location = new System.Drawing.Point(272, 44);
+            this.pcbAltaPokemon.Location = new System.Drawing.Point(282, 44);
             this.pcbAltaPokemon.Name = "pcbAltaPokemon";
             this.pcbAltaPokemon.Size = new System.Drawing.Size(195, 223);
             this.pcbAltaPokemon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pcbAltaPokemon.TabIndex = 14;
             this.pcbAltaPokemon.TabStop = false;
             // 
+            // btnAgregarImagen
+            // 
+            this.btnAgregarImagen.Location = new System.Drawing.Point(245, 161);
+            this.btnAgregarImagen.Name = "btnAgregarImagen";
+            this.btnAgregarImagen.Size = new System.Drawing.Size(31, 23);
+            this.btnAgregarImagen.TabIndex = 15;
+            this.btnAgregarImagen.Text = "+";
+            this.btnAgregarImagen.UseVisualStyleBackColor = true;
+            this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
+            // 
             // FrmAltaPokemon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(545, 428);
+            this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.pcbAltaPokemon);
             this.Controls.Add(this.txtUrlImagen);
             this.Controls.Add(this.lblUrlImagen);
@@ -223,5 +235,6 @@
         private System.Windows.Forms.Label lblUrlImagen;
         private System.Windows.Forms.TextBox txtUrlImagen;
         private System.Windows.Forms.PictureBox pcbAltaPokemon;
+        private System.Windows.Forms.Button btnAgregarImagen;
     }
 }
