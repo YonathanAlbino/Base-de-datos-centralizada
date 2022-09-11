@@ -140,11 +140,55 @@ namespace Ejemplos_ado_net
             }
         }
 
+        private bool validarFiltro() //Metodo para validar campos del filtro-Contra DB
+        {
+            if(cboCampo.SelectedIndex < 0) //Si el (cboCampo) esta vacio entra al if
+            {
+                MessageBox.Show("Por favor, seleccione el campo para filtrar");
+                return true; 
+            }
+            if(cboCriterio.SelectedIndex < 0) //Si el (cboCriterio) esta vacio entra al if
+            {
+                MessageBox.Show("Por favor, seleccione el criterio para filtrar");
+                return true;
+            }
+            if(cboCampo.SelectedItem.ToString() == "Número")
+            {
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text)) //Si la caja (txtFiltroAvanzado) es nula o vacia entra al if
+                {
+                    MessageBox.Show("Debes cagar el filtro para numéricos....");
+                    return true;
+                }
+
+                if (!(soloNumeros(txtFiltroAvanzado.Text))) //Si no se ingresaron solo numeros, recibe un falso pero negado, enonces entra al if
+                {
+                    MessageBox.Show("Por favor ingrese solo numeros para busar por un campo numerico");
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        private bool soloNumeros(string cadena) //Metodo para saber si se ingresaron solamente numestos en el (txtFiltroAvanzado)
+        {
+            foreach (char caracter in cadena)
+            {
+                if (!(char.IsNumber(caracter))) //Analiza la cadena caracter por caracter, si encuentra solo numeros no se ejecuta
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         private void btnBuscar_Click(object sender, EventArgs e) //Evento filtro contra DB, 
         {
             PokemonNegocio negocio = new PokemonNegocio(); //Creo el objeto (negocio) para tener acceso al metodo listar
             try
             {
+                if (validarFiltro()) //Si (validarFiltro) se resuelve en verdadero, corta la ejecucion del metodo (BtnBuscar)
+                    return; //Un return asi solo corta la ejecucion
+
+
                 string campo = cboCampo.SelectedItem.ToString(); //Guardo en la variable (campo) el intem seleccionado del (cboCampo)
                 string criterio = cboCriterio.SelectedItem.ToString();
                 string filtro = txtFiltroAvanzado.Text;

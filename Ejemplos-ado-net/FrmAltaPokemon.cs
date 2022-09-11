@@ -17,6 +17,7 @@ namespace Ejemplos_ado_net
     public partial class FrmAltaPokemon : Form
     {
         private Pokemon pokemon = null; //Atributo privado 
+        OpenFileDialog archivo = null; //Objeto para levantar una imagen
         public FrmAltaPokemon()
         {
             InitializeComponent();
@@ -61,7 +62,14 @@ namespace Ejemplos_ado_net
                     MessageBox.Show("Agregado exitosamente");
                 }
 
-                Close(); //Cierra la ventana
+
+                if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP"))) //Guardo imagen si la levato localmente
+                {
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName); //Primero se selecciona el archivo que se va a guardar y luego en que direccion y por ultimo el nombre
+                }
+
+             Close(); //Cierra la ventana
+
             }
 
             catch (System.Data.SqlClient.SqlException)
@@ -129,8 +137,8 @@ namespace Ejemplos_ado_net
 
         private void btnAgregarImagen_Click(object sender, EventArgs e) //Evento levantar imagen de un archivo
         {
-            OpenFileDialog archivo = new OpenFileDialog(); //Obejto para levantar imagen
-            archivo.Filter = "jpg|*.jpg;|png|*.png"; //Filtro para que el objeto muestre solo los archos (jpg)
+            archivo = new OpenFileDialog(); //Obejto para levantar imagen
+            archivo.Filter = "jpg|*.jpg;|png|*.png"; //Filtro para que el objeto muestre solo los archos (jpg-png etc)
             if (archivo.ShowDialog() == DialogResult.OK) //Si se selecciona un archivo, entra al if
             {
                 txtUrlImagen.Text = archivo.FileName; //Se guarda la direccion del archivo seleccionado
@@ -138,7 +146,7 @@ namespace Ejemplos_ado_net
 
                 //Guardo la imagen
 
-                File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName); //Primero se selecciona el archivo que se va a guardar y luego en que direccion
+                //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName); //Primero se selecciona el archivo que se va a guardar y luego en que direccion y por ultimo el nombre
             }
         }
     }
